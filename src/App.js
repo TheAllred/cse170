@@ -328,7 +328,3 @@ const ExpandBlur = styled.div`
 `;
 
 export default App;
-function expandPost(postID) {
-  console.log("Click the button!");
-  console.log(postID);
-}
