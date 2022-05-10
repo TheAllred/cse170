@@ -5,13 +5,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ cse170-course.git ]
+    branches: [cse170-course.git]
   pull_request:
-    branches: [ cse170-course.git ]
+    branches: [cse170-course.git]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,11 +19,16 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: git config user.name github-actions
+      - run: git config user.email github-actions@github.com
+      - run: git --work-tree build add --all
+      - run: git commit -m "Automatic Deploy action run by github-actions"
+      - run: git push origin HEAD:gh-pages --force
